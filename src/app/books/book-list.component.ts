@@ -31,6 +31,11 @@ export class BookListComponent implements OnInit {
     this._bookService.addBook(this.model).subscribe(books => this.books = books, error => this.errorMessage = <any>error);
   }
 
+  deleteBook(rowNumber : number) : void {
+    let book = this.books[rowNumber];
+    this._bookService.deleteBook(book).subscribe(books => this.books = books, error => this.errorMessage = <any>error);
+  }
+
   onRatingClicked(message: string): void {
     this.pageTitle = 'Book List: ' + message;
   }

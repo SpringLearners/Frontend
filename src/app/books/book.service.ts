@@ -9,8 +9,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class BookService {
 
-  private _getBooksUrl = 'http://localhost:8080/books/getAll';
+  private _getBooksUrl = 'http://localhost:8080/books/read';
   private _addBookUrl = 'http://localhost:8080/books/add';
+  private _delBookUrl = 'http://localhost:8080/books/del';
 
   constructor(private _http: Http) {
   }
@@ -23,7 +24,6 @@ export class BookService {
   }
 
   addBook(body: Object): Observable<Book[]> {
-    let bodyString = JSON.stringify(body);
     let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
     let options = new RequestOptions({headers: headers});
 
@@ -32,6 +32,16 @@ export class BookService {
       .do(data => console.log('All: ' + JSON.stringify(data)))
       .catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if
 
+  }
+
+  deleteBook(body: Object): Observable<Book[]> {
+    let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+    let options = new RequestOptions({headers: headers});
+
+    return this._http.post(this._delBookUrl, body, options) // ...using post request
+      .map((response: Response) => <Book[]> response.json())
+      .do(data => console.log('All: ' + JSON.stringify(data)))
+      .catch((error:any) => Observable.throw(error.json().error || 'Server error')); //...errors if
   }
 
   private handleError(error: Response) {

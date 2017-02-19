@@ -42,7 +42,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor='let book of books | bookFilter:listFilter'>
+        <tr *ngFor='let rowIndex = index; let book of books | bookFilter:listFilter'>
           <td>{{book.name}}</td>
           <td>{{book.author}}</td>
           <td>
@@ -51,7 +51,7 @@
             </ai-star>
           </td>
           <td>
-            <button class="btn btn-primary">Delete</button>
+            <button class="btn btn-primary" (click)="deleteBook(rowIndex)">Delete</button>
           </td>
         </tr>
         </tbody>
