@@ -1,0 +1,61 @@
+<div class='panel panel-primary'>
+  <div class='panel-heading'>
+    {{pageTitle}}
+  </div>
+
+  <div class='panel-body'>
+
+    <form class="form-inline">
+      <label class="mr-sm-2" for="bookNameInput">Book name</label>
+      <input class="form-control" name="name" [(ngModel)]="model.name" type="text" placeholder="Name" id="bookNameInput"/>
+
+      <label class="mr-sm-2" for="bookAuthorInput">Book author</label>
+      <input class="custom-select mb-2 mr-sm-2 mb-sm-0" name="author" [(ngModel)]="model.author" type="text" placeholder="Author" id="bookAuthorInput" />
+
+      <label class="mr-sm-2" for="bookRatingInput">Book rating</label>
+      <input class="custom-select mb-2 mr-sm-2 mb-sm-0" name="rating" [(ngModel)]="model.rating" type="number" value="5.0" id="bookRatingInput" step="0.50" max="5.0" min="1.0" />
+
+      <button type="submit" class="btn btn-primary" (click)="addBook()">Add book</button>
+    </form>
+
+    <br>
+
+    <div class='row'>
+      <div class='col-md-4'>
+        <label for="filterCriteria" class="col-2 col-form-label">Filter by:</label>
+        <input id="filterCriteria" type='text' [(ngModel)]="listFilter"/>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-6'>
+        <h3>Filtered by: {{listFilter}} </h3>
+      </div>
+    </div>
+    <div class='table-responsive'>
+      <table class="table" (*ngif)="books && books.length">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Author</th>
+          <th>Rating</th>
+          <th>Delete?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let book of books | bookFilter:listFilter'>
+          <td>{{book.name}}</td>
+          <td>{{book.author}}</td>
+          <td>
+            <ai-star [rating]='book.rating'
+                     (ratingClicked)='onRatingClicked($event)'>
+            </ai-star>
+          </td>
+          <td>
+            <button class="btn btn-primary">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
